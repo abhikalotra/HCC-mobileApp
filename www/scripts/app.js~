@@ -1,0 +1,269 @@
+ var app = angular.module('HccApp', [
+  'ngRoute',
+  'ngTouch',
+  'ngCordova',
+  'ngAnimate', 
+  'ngSanitize', 
+  'angularMoment',
+  'mobile-angular-ui',  
+  'mobile-angular-ui.drag',
+  'ui.bootstrap'
+]);
+ 
+
+app.config(function($compileProvider){
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):|data:image\//);
+})
+
+//whitelist youtube link
+app.config(["$sceDelegateProvider", function($sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        "http://www.youtube.com/embed/*"
+    ]);
+}]);
+
+app.run(function($rootScope, $location,storageService, pushnotifications, googleanalyticssetup) {
+    pushnotifications.setupListeners();
+    googleanalyticssetup.setupTracking();
+    // Needed for the loading screen
+    $rootScope.$on('$routeChangeStart', function(event, next, current){
+       if(window.analytics){
+           window.analytics.trackView($location.path().toString());
+       }
+       $rootScope.globals = storageService.get('loggedIn');
+       if($location.path() == "/news_details"){
+           // dont want to do anything...
+       }else{
+           $rootScope.loading = true;
+          if($rootScope.globals !== null){
+             if($location.path() == '/' || $location.path() == '/signup'){
+              $location.path('/dashboard');
+            }
+          }else{
+             if($location.path() == '/' || $location.path() == '/signup'){
+              return;
+             }else{
+               $location.path('/');
+             }
+          }
+       }
+    });
+
+    $rootScope.$on('$routeChangeSuccess', function(){
+        if($location.path() == "/news_details"){
+            // dont want to do anything...
+        }else{
+            $rootScope.loading = false;
+        }
+    });
+
+});
+app.config(function($httpProvider){
+        //initialize get if not there
+      if (!$httpProvider.defaults.headers.get) {
+          $httpProvider.defaults.headers.get = {};    
+      }
+      //disable IE ajax request caching
+      $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+      //send content type headers
+      $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    // $httpProvider.defaults.cache = true;
+   })
+
+//routes
+app.config(function($routeProvider) {
+  $routeProvider.when('/',  {
+        templateUrl: 'templates/login.html',
+        controller:  'LoginController',
+        reloadOnSearch: false
+      });
+  $routeProvider.when('/signup',  {
+        templateUrl: 'templates/signup.html',
+        controller:  'SignupController'
+        
+      });
+   $routeProvider.when('/signupfb',  {
+        templateUrl: 'templates/signupfb.html',
+        controller:  'SignupController'
+        
+      });
+  $routeProvider.when('/dashboard',  {
+            templateUrl: 'templates/dashboard.html', 
+            controller:  'DashController'
+      });
+  $routeProvider.when('/events',     {
+           templateUrl: 'templates/events.html',
+           controller:  'EventController'
+     });
+  $routeProvider.when('/news',     {
+        templateUrl: 'templates/news.html',
+        controller:  'NewsController'
+    });
+  $routeProvider.when('/news_details',     {
+        templateUrl: 'templates/news_details.html',
+        controller:  'NewsDetailsController'
+    });
+    $routeProvider.when('/products',     {
+        templateUrl: 'templates/products.html',
+        controller:  'ProductsController'
+    });
+    $routeProvider.when('/product_details',     {
+        templateUrl: 'templates/product_details.html',
+        controller:  'ProductDetailsController'
+    });
+    $routeProvider.when('/competitions',     {
+        templateUrl: 'templates/competitions.html',
+        controller:  'CompetitionsController'
+    });
+    $routeProvider.when('/competition_details',     {
+        templateUrl: 'templates/competition_details.html',
+        controller:  'CompetitionDetailsController'
+    });
+  $routeProvider.when('/you_tube',    {
+           templateUrl: 'templates/you_tube.html',         
+           controller:  'YoutubeController'
+    }); 
+  $routeProvider.when('/djs',    { 
+           templateUrl: 'templates/djs.html',        
+           controller:  'DjController'
+     });
+  $routeProvider.when('/dj_details',    {
+        templateUrl: 'templates/dj_details.html',
+        controller:  'DjDetailsController'
+    });
+  $routeProvider.when('/facebook',      {
+           templateUrl: 'templates/facebook.html',       
+           controller:  'FbController'
+     }); 
+  $routeProvider.when('/twitter',   {
+           templateUrl: 'templates/twitter.html',    
+           controller:  'TweetController'
+     });   
+  $routeProvider.when('/gallery',     {
+           templateUrl: 'templates/gallery.html',       
+           controller:  'InstaController'
+     });
+    $routeProvider.when('/hccexperience',     {
+        templateUrl: 'templates/hcc_experience.html',
+        controller:  'HCCExperienceController'
+    });
+
+});
+
+
+ //filter for sanitization
+
+  app.filter('to_trusted', ['$sce', function($sce){
+           return function(text) {
+            return $sce.trustAsHtml(text);
+        };
+  }]);
+  
+  app.filter('decode', function() {
+    return function(htmlString){
+     if(htmlString){
+          var decoded = htmlString.replace(/&amp;/g, '&');
+          return decoded;                    
+      }     
+    }
+  });
+
+  app.filter('trusted_url', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
+
+
+//youtube directive
+app.directive('myYoutube', function($sce) {
+  return {
+    restrict: 'EA',
+    scope: { code:'=' },
+    replace: true,
+    template: '<div style="height:250px;"><iframe style="overflow:hidden;height:100%;width:100%" width="100%" height="100%" ng-src="{{url}}" frameborder="0" allowfullscreen></iframe></div>',
+    link: function (scope) {
+        scope.$watch('code', function (newVal) {
+           if (newVal) {
+               scope.url = $sce.trustAsResourceUrl("http://www.youtube.com/embed/" + newVal);
+           }
+        });
+    }
+  };
+});
+//
+// For this trivial demo we have just a unique MainController 
+// for everything
+//
+app.controller('MainController', function($rootScope,Authentication,$location, $scope,$cordovaFacebook,storageService){
+
+  $rootScope.user_valid_icon =  true; 
+ 
+  $scope.logout =  function(){
+   Authentication.logout();
+   $cordovaFacebook.logout()
+    .then(function(success) {      
+      storageService.remove('LoggedInFb');
+    }, function (error) {
+      // error
+    });
+
+   $location.path('/');
+  }
+});
+ app.factory('cordovaReady', function () {
+     return function (fn) {
+
+         var queue = [];
+
+         var impl = function () {
+             queue.push(Array.prototype.slice.call(arguments));
+         };
+
+         document.addEventListener('deviceready', function () {
+             queue.forEach(function (args) {
+                 fn.apply(this, args);
+             });
+             impl = fn;
+         }, false);
+
+         return function () {
+             return impl.apply(this, arguments);
+         };
+     }
+ });
+ app.factory('googleanalyticssetup',function ($rootScope, cordovaReady){
+     var initialized = false;
+     return {
+         setupTracking: cordovaReady(function (onSuccess, onError, options) {
+             if (initialized == undefined || initialized == false) {
+                 initialized = true;
+                 window.analytics.startTrackerWithId('UA-55628667-2');
+             }
+         })
+     }
+ });
+ app.factory('pushnotifications', function ($rootScope, cordovaReady, $location, $cordovaDialogs) {
+     var initialized = false;
+     return {
+         setupListeners: cordovaReady(function (onSuccess, onError, options) {
+             if (initialized == undefined || initialized == false) {
+                 initialized = true;
+                 window.plugins.GameThrive.init( "9b8ea82a-af77-11e4-920b-5f562b60553c",
+                     {googleProjectNumber: "353311061066"},
+                     function(jsonData){
+                         // this is where we handle the fact that they clicked on a push notification to open the app
+                         $cordovaDialogs.alert(jsonData.message,jsonData.additionalData.title, 'OK');
+                         if(jsonData.additionalData != undefined && jsonData.additionalData.screen != undefined ){
+                             $rootScope.$apply(function() {
+                                 $location.path(jsonData.additionalData.screen.toString());
+                             });
+                         }
+                         console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                     });
+
+             }
+         })
+     }
+ });

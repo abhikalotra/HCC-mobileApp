@@ -1,0 +1,65 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+      <div class="events_page" ng-if="state=='not_active'">
+          <div class="row" style="margin-bottom: 30px; background: #262626;">
+              <div class="events">
+                  <img ng-src="images/hcc_exp_none.jpg" width="909" class="border_top" alt="Not Active"/>
+              </div>
+              <div class="content_events border_bottom">
+                  <div class="div" style="margin-bottom: 8px;">
+                      <h2>There are no Fan Zones currently!</h2>
+                  </div>
+                  <div style="font-size:16px;">HCC Experiences allow you to amplify your event experience by interacting with our activations and winning amazing prizes!</div>
+              </div>
+          </div>
+      </div>
+      <div class="events_page" ng-if="state=='instructions'">
+          <div class="row" style="margin-bottom: 30px; background: #262626;">
+              <div class="events">
+                  <img ng-src="images/{{exp_image}}" width="909" class="border_top" alt="HCC Experience"/>
+              </div>
+              <div class="content_events">
+                  <div class="div" style="margin-bottom: 8px;">
+                      <h2>{{exp_title}}</h2>
+                  </div>
+                  <div style="font-size:16px;" ng-bind-html="exp_description"></div>
+              </div>
+              <a ng-click="scanQR()" class="button red" style="background:#e30427">Scan QR Code</a>
+          </div>
+      </div>
+      <div class="events_page" ng-if="state=='scanFailed'">
+          <div class="row" style="margin-bottom: 30px; background: #262626;">
+              <div class="events">
+                  <img ng-src="images/hcc_exp_scanfailed.jpg" width="909" class="border_top" alt="Failed"/>
+              </div>
+              <div class="content_events">
+                  <div class="div" style="margin-bottom: 8px;">
+                      <h2>{{error_heading}}</h2>
+                  </div>
+                  <div style="font-size:16px;"><br/>
+                      {{error_message}}
+                  </div>
+              </div>
+              <a ng-click="scanQR()" class="button red" style="background:#e30427">Scan QR Code</a>
+          </div>
+      </div>
+          <div class="events_page" ng-if="state=='scanSuccess'">
+              <div class="row" style="margin-bottom: 30px; background: #262626;">
+                  <div class="events">
+                      <img ng-src="images/{{top_image}}" width="909" class="border_top" alt="Success"/>
+                  </div>
+                  <div class="content_events border_bottom">
+                      <div class="div" style="margin-bottom: 8px;">
+                          <h2>{{win_outcome}}</h2>
+                      </div>
+                      <div style="font-size:16px;"><br/>
+                          {{ win_prize }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+  </div>
+  </div>
+</div>
+
+

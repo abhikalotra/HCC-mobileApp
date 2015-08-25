@@ -1,0 +1,57 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+<div class="gallery">
+
+<div class="row" >
+	<div id="search-bar">
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper" id="search-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search" ng-model="searchpic">
+        
+      </label>
+    </div>
+  </div>
+	
+	<!--<input type="text" ng-model="searchpic">-->
+<ul>
+     <li class="galleryimage"  ng-repeat="pic in images|filter:searchpic|limitTo:itemsLimit()" class="at-repeat-twirl-in
+         at-repeat-twirl-out">
+         <div ng-if="pic.primary != ''">
+    <a href="" ng-click="showImage($index,pic.id,pic.title)">
+ 	      <img ng-src="{{pic.image}}" alt="gallery" ng-click="showImage($index,pic.id,pic.title)" />
+ 	      <br/>
+ 	       </a>
+ 	    <div class="captions">
+       {{pic.title}}
+        </div>
+</div>
+         
+         <div ng-if="pic.primary == ''">
+<a href="" ng-click="open(pic.imagelarge)">
+ 	      <img ng-src="{{pic.image}}" alt="gallery" />
+ 	      <br/>
+ 	      </a>
+ 	          <div class="captions">
+       {{pic.title}}
+        </div>
+</div>
+         
+         
+ 	      
+ 	 </li>
+</ul>	
+
+</div>
+
+<div class="row" ng-if="show_load_more">
+	
+   <button ng-show="hasMoreItemsToShow()" ng-click="loadmore()" class="btn sign_up btn-primary btn-block">
+     Load More
+    </button>
+</div>
+</div>
+  </div>
+</div>
+
+

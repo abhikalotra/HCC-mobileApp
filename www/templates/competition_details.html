@@ -1,0 +1,224 @@
+<div class="scrollable">
+    <div class="scrollable-content" id="scrollable_content">
+        <div class="events_page">
+            <!-- Initial Competition Details Screen -->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='initial_screen'">
+                <div class="events">
+                    <div style="position: relative;">
+                        <div class="back_button" ng-click="go_back()" style="background: #ff3780; color:#FFF;"><i class="fa fa-angle-left"></i> Back</div>
+                        <img ng-src="{{competition.competition_thumb}}" ng-click="go_back()" width="100%" alt="News" class="border_top" ng-if="competition.competition_thumb"/>
+                    </div>
+                </div>
+                <div class="content_events">
+                    <div class="div" style="margin-bottom: 8px;"  class="news_title hero" hero-id="news_title">
+                        <div><h2 ng-bind-html="competition.competition_name" style="text-transform:none;"></h2></div>
+                    </div>
+                    <div data-ng-bind-html="competition.competition_description" style="font-size:16px;"></div>
+                    <div data-ng-bind-html="competition.competition_terms" style="font-size:16px;"></div>
+                    <h3 class="competition_closes">Competition Closes: {{competition.date_to | date : "dd MMM @ HH:mm"}}</h3>
+                </div>
+                <a ng-click="goto_step1()" class="button red" style="background:#ff3780">ENTER NOW</a>
+            </div>
+
+            <!-- Answer Questions 1-->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='question_1'">
+                <div class="content_events border_top">
+                    <div style="padding: 10px;"><h2 style="text-transform:none; margin-bottom: 5px;">{{competition.q1_question}}</h2></div>
+                    <!-- depending on question type, show something different -->
+                    <div ng-if="competition.q1_type=='text'">
+                        <input class="form-control" style="background:#FFF; border:solid 1px #ff3780; border-radius: 5px; color:#333; font-size:16px; padding:8px;" type="text" name="answer1" ng-model="competition_entry.answer1"/>
+                    </div>
+                    <div ng-if="competition.q1_type=='select'">
+                        <div ng-repeat="option in competition.q1_options" id="a1_{{$index}}" ng-click="competition_entry.answer1 = option" style="padding: 15px; border: solid 1px #DDD; width:100%;">
+                            <div style="float:right; margin-top:-5px;">
+                                <div ng-if="option == competition_entry.answer1">
+                                    <i class="fa fa-check-circle" style="font-size:22px; color:#ff3780;"></i>
+                                </div>
+                            </div>
+                            <div style="width: 70%;">
+                                {{option}}
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="competition.q1_type=='share'">
+                        Coming soon! Just tap "Next" below.
+                    </div>
+                    <div ng-if="error != ''">
+                        <div class="alert alert-danger" style="margin-top: 10px;">{{error}}</div>
+                    </div>
+                </div>
+                <a ng-click="process_question1()" class="button red" style="background:#ff3780">NEXT</a>
+            </div>
+
+            <!-- Answer Questions 2-->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='question_2'">
+                <div class="content_events border_top">
+                    <div style="padding: 10px;" focus-on="focusMe"><h2 style="text-transform:none; margin-bottom: 5px;">{{competition.q2_question}}</h2></div>
+                    <!-- depending on question type, show something different -->
+                    <div ng-if="competition.q2_type=='text'">
+                        <input class="form-control" style="background:#FFF; border:solid 1px #ff3780; border-radius: 5px; color:#333; font-size:16px; padding:8px;" type="text" name="answer2" ng-model="competition_entry.answer2"/>
+                    </div>
+                    <div ng-if="competition.q2_type=='select'">
+                        <div ng-repeat="option in competition.q2_options" ng-click="competition_entry.answer2 = option" style="padding: 15px; border: solid 1px #DDD; width:100%;">
+                            <div style="float:right; margin-top:-5px;">
+                                <div ng-if="option == competition_entry.answer2">
+                                    <i class="fa fa-check-circle" style="font-size:22px; color:#ff3780;"></i>
+                                </div>
+                            </div>
+                            <div style="width: 70%;">
+                                {{option}}
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="competition.q2_type=='share'">
+                        Coming soon! Just tap "Next" below.
+                    </div>
+                    <div ng-if="error != ''">
+                        <div class="alert alert-danger" style="margin-top: 10px;">{{error}}</div>
+                    </div>
+                </div>
+                <a ng-click="process_question2()" class="button red" style="background:#ff3780">NEXT</a>
+            </div>
+
+            <!-- Answer Questions 3-->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='question_3'">
+                <div class="content_events border_top">
+                    <div style="padding: 10px;"><h2 style="text-transform:none; margin-bottom: 5px;">{{competition.q3_question}}</h2></div>
+                    <!-- depending on question type, show something different -->
+                    <div ng-if="competition.q3_type=='text'">
+                        <input class="form-control" style="background:#FFF; border:solid 1px #ff3780; border-radius: 5px; color:#333; font-size:16px; padding:8px;" type="text" name="answer3" ng-model="competition_entry.answer3"/>
+                    </div>
+                    <div ng-if="competition.q3_type=='select'">
+                        <div ng-repeat="option in competition.q1_options" ng-click="competition_entry.answer3 = option" style="padding: 15px; border: solid 1px #DDD; width:100%;">
+                            <div style="float:right; margin-top:-5px;">
+                                <div ng-if="option == competition_entry.answer3">
+                                    <i class="fa fa-check-circle" style="font-size:22px; color:#ff3780;"></i>
+                                </div>
+                            </div>
+                            <div style="width: 70%;">
+                                {{option}}
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="competition.q3_type=='share'">
+                        Coming Soon! Just tap "Next" below.
+                    </div>
+                    <div ng-if="error != ''">
+                        <div class="alert alert-danger" style="margin-top: 10px;">{{error}}</div>
+                    </div>
+                </div>
+                <a ng-click="process_question3()" class="button red" style="background:#ff3780">NEXT</a>
+            </div>
+
+            <!-- Answer Questions 4-->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='question_4'">
+                <div class="content_events border_top">
+                    <div style="padding: 10px;"><h2 style="text-transform:none; margin-bottom: 5px;">{{competition.q4_question}}</h2></div>
+                    <!-- depending on question type, show something different -->
+                    <div ng-if="competition.q4_type=='text'">
+                        <input class="form-control" style="background:#FFF; border:solid 1px #ff3780; border-radius: 5px; color:#333; font-size:16px; padding:8px;" type="text" name="answer4" ng-model="competition_entry.answer4"/>
+                    </div>
+                    <div ng-if="competition.q4_type=='select'">
+                        <div ng-repeat="option in competition.q4_options" ng-click="competition_entry.answer3 = option" style="padding: 15px; border: solid 1px #DDD; width:100%;">
+                            <div style="float:right; margin-top:-5px;">
+                                <div ng-if="option == competition_entry.answer4">
+                                    <i class="fa fa-check-circle" style="font-size:22px; color:#ff3780;"></i>
+                                </div>
+                            </div>
+                            <div style="width: 70%;">
+                                {{option}}
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="competition.q4_type=='share'">
+                        Coming Soon! Just tap "Next" below.
+                    </div>
+                    <div ng-if="error != ''">
+                        <div class="alert alert-danger" style="margin-top: 10px;">{{error}}</div>
+                    </div>
+                </div>
+                <a ng-click="process_question4()" class="button red" style="background:#ff3780">NEXT</a>
+            </div>
+
+            <!-- Answer Questions 5-->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='question_5'">
+                <div class="content_events border_top">
+                    <div style="padding: 10px;"><h2 style="text-transform:none; margin-bottom: 5px;">{{competition.q5_question}}</h2></div>
+                    <!-- depending on question type, show something different -->
+                    <div ng-if="competition.q5_type=='text'">
+                        <input class="form-control" style="background:#FFF; border:solid 1px #ff3780; border-radius: 5px; color:#333; font-size:16px; padding:8px;" type="text" name="answer5" ng-model="competition_entry.answer5"/>
+                    </div>
+                    <div ng-if="competition.q5_type=='select'">
+                        <div ng-repeat="option in competition.q5_options" ng-click="competition_entry.answer5 = option" style="padding: 15px; border: solid 1px #DDD; width:100%;">
+                            <div style="float:right; margin-top:-5px;">
+                                <div ng-if="option == competition_entry.answer5">
+                                    <i class="fa fa-check-circle" style="font-size:22px; color:#ff3780;"></i>
+                                </div>
+                            </div>
+                            <div style="width: 70%;">
+                                {{option}}
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="competition.q5_type=='share'">
+                        Coming Soon! Just tap "Next" below.
+                    </div>
+                    <div ng-if="error != ''">
+                        <div class="alert alert-danger" style="margin-top: 10px;">{{error}}</div>
+                    </div>
+                </div>
+                <a ng-click="process_question5()" class="button red" style="background:#ff3780">NEXT</a>
+            </div>
+
+            <!-- Loading Screen -->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='loading'">
+                <div class="content_events border_all" style="text-align: center; padding-top:40px; padding-bottom:40px;">
+                    <img src="images/loading.gif"/>
+                </div>
+            </div>
+
+            <!-- Done Screen -->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='done'">
+                <div class="content_events border_top">
+                    <div style="padding: 10px;">
+                        <h2 style="text-transform:none; margin-bottom: 5px;">{{done_heading}}</h2>
+                        <p style="font-size:14px;">{{done_message}}</p>
+                        <div ng-if="error != ''">
+                            <div class="alert alert-danger">{{error}}</div>
+                        </div>
+                    </div>
+                </div>
+                <a ng-click="go_back()" class="button red" style="background:#555555">BACK</a>
+            </div>
+
+
+            <!-- Previous Competition Screen -->
+            <div class="row" style="margin-bottom: 30px;" ng-if="state=='previous_competition'">
+                <div class="events">
+                    <div class="back_button" ng-click="go_back()" style="background: #ff3780; color:#FFF;"><i class="fa fa-angle-left"></i> Back</div>
+                    <img ng-src="{{competition.competition_thumb}}" width="100%" alt="News" class="border_top" ng-if="competition.competition_thumb"/>
+                </div>
+                <div class="content_events">
+                    <div class="div" style="margin-bottom: 8px;"  class="news_title hero" hero-id="news_title">
+                        <div><h2 ng-bind-html="competition.competition_name" style="text-transform:none;"></h2></div>
+                    </div>
+                    <div data-ng-bind-html="competition.competition_description" style="font-size:16px;"></div>
+                    <div data-ng-bind-html="competition.competition_terms" style="font-size:16px;"></div>
+                    <h3 class="competition_closes" ng-if="competition.winners.length == 0">Winners to be announced here soon!</h3>
+                    <div ng-if="competition.winners.length > 0">
+                        <h3 class="competition_closes">Competition Winners:</h3>
+                        <div ng-repeat="winner in competition.winners" style="padding: 15px; border: solid 1px #DDD; width:100%; text-transform: capitalize;">
+                            <b>{{winner.firstname | limitTo:1}}. {{winner.lastname}}</b><br/>
+                            {{winner.prize_name}}<br/>
+                            {{winner.prize_description}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height:300px;"></div>
+        </div>
+    </div>
+</div>
+
+

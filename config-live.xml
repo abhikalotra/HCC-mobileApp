@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.app.hcc" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	 <preference name="splashScreen" value="screen" />
+     <preference name="SplashScreenDelay" value="4000" />
+    <name>Huawei Culture Club</name>
+    <description>
+        An app and movement dedicated to elevating
+        your lifestyle and keeping you in touch with all that matters
+        within the Electronic Dance Music Culture.
+    </description>
+    <author email="info@smashrepublic.com" href="http://www.smashrepublic.com">
+        Smash Republic
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>

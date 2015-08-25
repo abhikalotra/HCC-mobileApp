@@ -1,0 +1,24 @@
+<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="events_page">
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="events">
+                    <div style="position: relative;">
+                        <div class="back_button" ng-click="go_back()" style="background: #ff3780; color:#FFF;"><i class="fa fa-angle-left"></i> Back</div>
+                        <img ng-src="{{news.thumbnail}}" ng-click="go_back()" width="909" class="border_top" alt="News" ng-if="news.thumbnail"/>
+                    </div>
+                </div>
+                <div class="content_events border_bottom">
+                    <div class="div" style="margin-bottom: 8px;"  class="news_title hero" hero-id="news_title">
+                        <div class="left_align" style="width: 80%;"><h2 ng-bind-html="news.title" style="text-transform:none;"></h2></div>
+                        <div class="right_align"><h3 class="date_block">{{news.date | date : "dd/MMM" }}</h3></div>
+                    </div>
+                    <div data-ng-bind-html="news.description" style="font-size:16px;"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

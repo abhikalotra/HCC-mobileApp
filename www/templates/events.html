@@ -1,0 +1,34 @@
+<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="events_page">
+            <div class="row" ng-repeat="event in eventsall" style="margin-bottom: 30px;">
+                <div class="events">
+                    <img ng-src="{{event.flyer_thumbnail}}" width="909"  class="top_image" alt="Events"/></div>
+                <div class="content_events">
+                    <div class="div">
+                        <div class="left_align"><h2 ng-bind-html="event.name"></h2></div>
+                        <div class="right_align"><h3>{{event.date | date : "dd/MMM" }}</h3></div>
+                    </div>
+                    <p>
+                        {{event.write_up}}
+
+                    <div ng-if="event.original_price > event.discounted_price">
+                        <h6>NORMAL PRICE FROM R{{event.original_price}} - HUAWEI PRICE FROM
+                            R{{event.discounted_price}}</h6>
+                        <div class="div">
+                            <div class="left_align"><h2 style="color: #ff0028;">{{event.percentageOff}}% OFF</h2></div>
+                        </div>
+                    </div>
+                    <div ng-if="event.original_price <= event.discounted_price">
+                        <div class="left_align"><h2 style="color: #ff0028;">Exclusive: Limited/Sold out tickets</h2>
+                        </div>
+                    </div>
+                </div>
+                <a ng-click="goto_link('{{event.ticketing_link}}')" class="button red" style="background:#e30427">BUY TICKET</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

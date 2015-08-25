@@ -1,0 +1,37 @@
+<div class="scrollable">
+ <div class="scrollable-content">
+  <div class="twitter">
+
+  <div class="row top_bar">
+    <div class="tweets">
+     <img ng-src="https://graph.facebook.com/301881223200808/picture?type=large" width="50" height="50" alt="Twitter" />
+     <div class="txt_tweets">
+         <a href="https://www.facebook.com/huaweidevicesouthafrica" alt="fb_image" class="fb_like_page"><img ng-src="images/fb_like.png" alt="twitter-follow"></a>
+         <h2 ng-bind-html="pageinfo.name"></h2>
+       <span class="fb_likes">{{pageinfo.likes}} Likes </span>
+      </div>
+     </div>
+    </div>
+     <div class="row animate-repeat" ng-repeat="info in fbinfo_data" ng-if="info.message || info.picture">
+      <div class="tweets fbdata">
+        <img ng-src="https://graph.facebook.com/301881223200808/picture?type=large" width="126" height="129" alt="Twitter" />
+        <div class="txt_tweets">
+          <h6 ng-bind-html="info.from.name | to_trusted " class="zero-spacing"></h6>
+          <p class="date zero-spacing"><span am-time-ago="info.created_time"></p><br style="clear: both;"/>
+          <p ng-bind-html="info.message | to_trusted" class="zero-spacing"></p>
+          <img ng-if="info.picture" ng-src="{{info.picture}}" alt="text">
+           <p class="date blue_txt">{{info.likes.summary.total_count ? info.likes.summary.total_count:'0'}} likes   {{info.comments.summary.total_count ? info.comments.summary.total_count:'0'}} comments</p>
+             <!--<div class="fb_buttons">-->
+             <!--<a class="button fb_blue" href="" ng-click="LIkePostFb(info.id)"><i class="fa fa-thumbs-o-up"></i>Like</a>-->
+             <!--<a class="button fb_blue" href="" ng-click="CommentPostFb(info.id)"><i class="fa fa-comment-o"></i>Comment</a>-->
+            <!--</div>-->
+          </div>
+        </div>
+    </div>
+  
+
+  </div>
+</div>
+</div>
+
+

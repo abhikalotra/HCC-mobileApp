@@ -1,0 +1,40 @@
+<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="events_page">
+            <div class="row" ng-repeat="competition in competitionsall" style="margin-bottom: 5px;" ng-click="show_competition(competition)">
+                <div class="content_events border_all" ng-if="competition.date_to >= today">
+                    <div class="div" style="background:#FFF; position: relative;">
+                        <div class="left_align" style="width: 35%; padding-right:10px; border-right:solid 1px #DDD;"> <img ng-src="{{competition.competition_thumb}}" width="100%" alt="Competition Image"/></div>
+                        <div class="left_align" style="width: 60%; padding-left:5px;">
+                            <h2 ng-bind-html="competition.competition_name" style="text-transform:none;"></h2>
+                            <h3 class="date_block" style="margin-top: 4px; font-size:14px;">Closes {{competition.date_to | date : "dd/MMM" }}</h3>
+                        </div>
+                        <div class="more_button" style="background: #ff3780;">MORE <i class="fa fa-plus"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="competitionsall.length==0 || !has_current" class="alert alert-plain" style="font-size:14px;">The next competition will be announced here soon!</div>
+
+            <div class="row" ng-if="has_previous">
+                <div class="content_events border_all section_header" style="margin-bottom: 0px; background:#555555;">Previous Competitions</div>
+            </div>
+            <div class="row" ng-repeat="competition in competitionsall" style="margin-bottom: 5px;" ng-click="show_competition(competition)">
+                <div class="content_events border_all" ng-if="competition.date_to < today">
+                    <div class="div" style="background:#FFF; position: relative;">
+                        <div class="left_align" style="width: 35%; padding-right:10px; border-right:solid 1px #DDD;"> <img ng-src="{{competition.competition_thumb}}" width="100%" alt="Competition Image"/></div>
+                        <div class="left_align" style="width: 60%; padding-left:5px;">
+                            <h2 ng-bind-html="competition.competition_name" style="text-transform:none;"></h2>
+                            <h3 class="date_block" style="margin-top: 4px; font-size:14px;">Competition Closed: {{competition.date_to | date : "dd/MMM" }}</h3>
+                        </div>
+                        <div class="more_button" style="background: #ff3780;">MORE <i class="fa fa-plus"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="text-align: center; font-size:10px; color:#999; box-shadow: none;" ng-if="isApple">
+                Please note: Apple is not a sponsor of these competitions nor are any of the prizes Apple products.
+            </div>
+        </div>
+    </div>
+</div>
+
+

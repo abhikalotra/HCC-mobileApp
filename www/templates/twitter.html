@@ -1,0 +1,22 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+<div class="twitter">
+
+ <div class="row at-repeat-wave-in
+         at-repeat-wave-out" ng-repeat="tweet in tweets">
+    <div class="tweets">
+    <img ng-src="{{tweet.user.profile_image_url}}" width="126" height="129" alt="Twitter" />
+    <div class="txt_tweets">
+    <h6 ng-bind-html="tweet.user.name" class="zero-spacing"></h6>
+    <p class="date zero-spacing"><span am-time-ago="tweet.created_at"><i class="fa fa-twitter"></i></p><br style="clear: both;"/>
+    <p ng-bind-html="tweet.text" class="zero-spacing">
+      </p><p ng-repeat="url in tweet.entities.urls"><a href="{{url.expanded_url}}" target="_blank">{{url.expanded_url}}</a></p>
+      </div>
+    </div>
+    </div>
+   
+  </div>
+</div>
+</div>
+
+

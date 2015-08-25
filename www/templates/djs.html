@@ -1,0 +1,19 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+        <div class="events_page">
+            <div class="dj_holder" ng-repeat="dj in djlist" style="" ng-click="showDJ(dj)">
+                <div class="events" ng-if="dj.dj_image">
+                    <img ng-src="{{dj.dj_image}}" width="909" class="border_top" alt="News"/>
+                </div>
+                <div class="content_events border_bottom" style="position: relative;">
+                    <div class="div" style="margin-bottom: 0px; background:#FFF;">
+                        <div class="left_align" style="width: 80%;"><h2 ng-bind-html="dj.dj_name" style="text-transform:none; font-size:11px;"></h2></div>
+                        <div class="more_button" style="background: #ff3780; bottom:0; right:0;"><i class="fa fa-plus"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+
+

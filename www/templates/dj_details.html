@@ -1,0 +1,50 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+    <div>
+      <div class="row">
+          <div class="djs">
+              <div style="position: relative;">
+                  <div class="back_button" ng-click="go_back()" style="background: #ff3780; color:#FFF;"><i class="fa fa-angle-left"></i> Back</div>
+                  <img ng-src="{{dj.dj_image}}" ng-click="go_back()" width="100%" alt="DJ Pic" class="border_top" ng-if="dj.dj_image"/>
+              </div>
+              <div style="width: 100%; background:#FFF; text-align: center; padding:10px;">
+                  <h3 style="margin-bottom: 0px;">{{dj.dj_name}}</h3>
+              </div>
+              <div style="width: 100%; background:#666;">
+                  <a ng-if="dj.dj_bio!=''" ng-click="changeSubView('bio')" class="inline-nav" ng-class="(subview=='bio') ? 'inline-nav-active' : ''" style="margin-left: 0%;"><i class="fa fa-user"></i> Bio</a>
+                  <a ng-if="dj.mixcloud_link!=''" ng-click="changeSubView('mixcloud')" id="nav-mixcloud" class="inline-nav" ng-class="(subview=='mixcloud') ? 'inline-nav-active' : ''"><i class="fa fa-cloud"></i> Mix Cloud</a>
+                  <a ng-click="changeSubView('gig_guide')" id="nav-gig_guide" class="inline-nav" ng-class="(subview=='gig_guide') ? 'inline-nav-active' : ''"><i class="fa fa-calendar-o"></i> Gig Guide</a>
+                  <div style="clear:both;"></div>
+              </div>
+              <div ng-if="subview=='bio'" class="content border_bottom" style="padding:15px 20px;">
+                  <p ng-bind-html="dj.dj_bio"></p>
+              </div>
+              <div ng-if="subview=='gig_guide'" class="content border_bottom" style="padding:15px 20px;">
+                  <div ng-if="isLoading" style="text-align: center; padding-top:10px; padding-bottom:40px;">
+                      <img src="images/loading.gif"/>
+                  </div>
+                  <div ng-if="gigs.length==0" class="dj_gig">
+                      <div class="gig_date"><i class="fa fa-exclamation-circle"></i></div>
+                      <div class="gig_info" style="border-right:none;"><p>No upcoming gigs announced for {{dj.dj_name}}</p></div>
+                      <div style="clear: both;"></div>
+                  </div>
+                  <div ng-repeat="gig in gigs" class="dj_gig">
+                      <div class="gig_date" ng-if="gig.event_datetime!=''"><span style="font-size:24px;">{{gig.event_datetime | date : "dd"}}</span><br/>{{gig.event_datetime | date : "MMM"}}</div>
+                      <div class="gig_date" ng-if="gig.event_datetime==''">TBC</div>
+                      <div class="gig_info">
+                          <h2 ng-if="gig.event_name!=''">{{gig.event_name}}</h2>
+                          <h3 ng-if="gig.playing_at_time!=''">Playing at: {{gig.playing_at_time}}</h3>
+                          <p ng-if="gig.venue!=''">Venue: {{gig.venue}}</p>
+                      </div>
+                      <div class="gig_more" ng-if="gig.more_info_link!=''"><a ng-click="goto_link('{{gig.more_info_link}}')">WEBSITE</a></div>
+                      <div style="clear:both;"></div>
+                  </div>
+              </div>
+              <div ng-if="subview=='mixcloud'" class="border_bottom">
+                  <iframe width="100%" height="360" ng-src="{{dj.mixcloud_link | trustAsResourceUrl}}" frameborder="0"></iframe>
+              </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
